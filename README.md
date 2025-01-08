@@ -11,6 +11,7 @@ _¡Bienvenido al challenge de ForoHub! un challenge aún mas completo propuesto 
 3. **Búsqueda de un tópico en específico:** Permite buscar un tópico en específico por medio del ID.
 4. **Actualización de tópicos:** Permite actualizar un tópico ya previamente creado.
 5. **Elimación de tópicos:** Permite eliminar el tópico deseado por medio del ID.
+6. **Login con spring security y JWT para autenticación y autorización:** Permite generar un JWT para autenticar a un usuario por medio de un inicio de sesión.
 
 ## 🛠️ Tecnologías Utilizadas
 
