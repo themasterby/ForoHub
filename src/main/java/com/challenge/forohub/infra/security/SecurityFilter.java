@@ -14,7 +14,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
-// extendemos de este filter que nos proporciona Spring
 public class SecurityFilter extends OncePerRequestFilter {
 
     @Autowired

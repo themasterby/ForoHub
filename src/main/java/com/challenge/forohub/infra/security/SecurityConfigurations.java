@@ -17,16 +17,13 @@ import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
 
-// esta anotacion siempre es la que spring escanea primero porque se sobreentiende que son
-// configuraciones necesarias para correr las apps
+
 @Configuration
-// esto es para indicar que se habilite la seguridad web
 @EnableWebSecurity
 public class SecurityConfigurations {
 
     @Autowired
     private SecurityFilter securityFilter;
-    // csrf es un tipo de autenticación de seguridad que no necesitaremos ahoras
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(c -> c.disable())

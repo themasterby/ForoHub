@@ -1,10 +1,10 @@
 package com.challenge.forohub.controller;
 
+import com.challenge.forohub.ValidacionException;
 import com.challenge.forohub.topico.*;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.data.domain.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -43,7 +43,15 @@ public class TopicoContoller {
 
     @GetMapping("/{id}")
     public ResponseEntity<DatosListadoTopico> retornarDetallesTopico(@PathVariable Long id){
-        Topico topico = topicoRepository.getReferenceById(id);
+        if (!topicoRepository.findById(id).isPresent()){
+            throw new ValidacionException();
+        }
+
+        if (id == null || id <= 0) {
+                throw  new ValidacionException();
+        }
+
+        var topico = topicoRepository.getReferenceById(id);
 
         var detallesTopico = new DatosListadoTopico(topico.getId(), topico.getTitulo(), topico.getMensaje(),
                 topico.getFechaCreacion(), topico.getStatus(), topico.getAutor(), topico.getCurso());
@@ -55,7 +63,9 @@ public class TopicoContoller {
     @Transactional
     public ResponseEntity<DatosActualizarTopico> actualizarTopico(@RequestBody @Valid DatosActualizarTopico datosActualizarTopico){
         Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
+
         topico.actualizarTopico(datosActualizarTopico);
+
         var detallesActualizarTopico = new DatosActualizarTopico(topico.getId(), topico.getTitulo(), topico.getMensaje(),
                 topico.getFechaCreacion(), topico.getStatus(), topico.getAutor(), topico.getCurso());
 
@@ -65,9 +75,11 @@ public class TopicoContoller {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity eliminarTopico(@PathVariable Long id){
-        Topico topico = topicoRepository.getReferenceById(id);
-        var topicoEliminado = new DatosListadoTopico(topico.getId(), topico.getTitulo(), topico.getMensaje(),
-                topico.getFechaCreacion(), topico.getStatus(), topico.getAutor(), topico.getCurso());
+
+        if (!topicoRepository.findById(id).isPresent()){
+            throw new ValidacionException();
+        }
+
         topicoRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
